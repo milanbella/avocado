@@ -53,7 +53,12 @@ Open MS Visual Studio Installer  and verify that clang is installed.
 
 ## Build Micro websockets
 
+[also see](https://github.com/uNetworking/uWebSockets/actions/runs/8311531780/workflow)
+
+### Windows
+
 Clone the [repository](https://github.com/uNetworking/uWebSockets.git) inside the project root.
+
 
 ```
 > git clone --recursive https://github.com/uNetworking/uWebSockets.git
@@ -67,8 +72,21 @@ PS C:\w2\avocado\uWebSockets> ..\scripts\uWebSockets_build.ps1
 
 ```
 
-Build `uWebSockets`, when on Linux:
+### Linux
 
+Clone the [repository](https://github.com/uNetworking/uWebSockets.git) inside the project root.
+
+
+```
+> git clone --recursive https://github.com/uNetworking/uWebSockets.git
+```
+
+Build uWebSockets:
+
+```
+~/w2/avocado> cd uWebSockets
+~/w2/avocado/uWebSockets> make
+```
 
 
 

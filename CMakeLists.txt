@@ -1,4 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(vcpkg_libs_path /bin/vcpkg/installed/x64-windows)
 
@@ -17,7 +19,10 @@ set_target_properties(uvLib_windows PROPERTIES
 add_library(uWebSocketsLib OBJECT IMPORTED)
 
 file(GLOB uWebSocketsLib_obj_files "${CMAKE_SOURCE_DIR}/uWebSockets/uSockets/*.o")
-set(uWebSocketsLib_includes "${CMAKE_SOURCE_DIR}/uWebSockets/uSockets/src")
+set(uWebSocketsLib_includes 
+  "${CMAKE_SOURCE_DIR}/uWebSockets/uSockets/src" 
+  "${CMAKE_SOURCE_DIR}/uWebSockets/src"
+)
 
 set_property(TARGET uWebSocketsLib PROPERTY
   IMPORTED_OBJECTS ${uWebSocketsLib_obj_files}
@@ -37,7 +42,7 @@ target_link_libraries(wsrv
   uWebSocketsLib 
   uvLib_windows
 )
-target_include_directories(wsrv PRIVATE ${uWebSocketsLib_includes}>)
+target_include_directories(wsrv PRIVATE ${uWebSocketsLib_includes})
 
 #project(app1)
 #

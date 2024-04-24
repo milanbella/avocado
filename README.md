@@ -78,7 +78,7 @@ Clone the [repository](https://github.com/uNetworking/uWebSockets.git) inside th
 
 
 ```
-> git clone --recursive https://github.com/uNetworking/uWebSockets.git
+~/w2/avocado> git clone --recursive https://github.com/uNetworking/uWebSockets.git
 ```
 
 Build uWebSockets:

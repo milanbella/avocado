@@ -13,11 +13,14 @@ if(WIN32)
     INTERFACE ${vcpkg_install_path}/include
   )
 elseif(UNIX)
-  find_library(UV_LIBRARY NAMES uv)
+  find_library(UV_LIBRARY NAMES uv 
+    PATHS /usr/lib
+    PATH_SUFFIXES x86_64-linux-gnu
+  )
   if(UV_LIBRARY)
-    message(STATUS "Found library uv: ${LIBZ_LIBRARY}")
+    message(STATUS "Found library uv: ${UV_LIBRARY}")
   else()
-    message(FATAL_ERROR "libz not found")
+    message(FATAL_ERROR "lib uv not found")
   endif()
 else()
   message(FATAL_ERROR "unsupported platform")
@@ -32,11 +35,14 @@ if(WIN32)
     INTERFACE ${vcpkg_install_path}/include
   )
 elseif(UNIX)
-  find_library(ZLIB_LIBRARY NAMES z zlib libz)
+  find_library(ZLIB_LIBRARY NAMES z 
+    PATHS /usr/lib
+    PATH_SUFFIXES x86_64-linux-gnu
+  )
   if(ZLIB_LIBRARY)
-    message(STATUS "Found library uv: ${ZLIB_LIBRARY}")
+    message(STATUS "Found lib z: ${ZLIB_LIBRARY}")
   else()
-    message(FATAL_ERROR "libz not found")
+    message(FATAL_ERROR "lib z not found")
   endif()
 else()
   message(FATAL_ERROR "unsupported platform")

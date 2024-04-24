@@ -61,7 +61,7 @@ Clone the [repository](https://github.com/uNetworking/uWebSockets.git) inside th
 
 
 ```
-> git clone --recursive https://github.com/uNetworking/uWebSockets.git
+PS C:\w2\avocado> git clone --recursive https://github.com/uNetworking/uWebSockets.git
 ```
 
 Build `uWebSockets`, when on windows open project root folder in  MS Visual Studio Community open  powershel terminal x64 and run:

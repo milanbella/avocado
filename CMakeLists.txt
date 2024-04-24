@@ -4,21 +4,43 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(vcpkg_install_path /bin/vcpkg/installed/x64-windows)
 
-add_library(uvLib_windows STATIC IMPORTED)
-set_target_properties(uvLib_windows PROPERTIES
-  IMPORTED_LOCATION ${vcpkg_install_path}/lib/uv.lib 
-)
-target_include_directories(uvLib_windows 
-  INTERFACE ${vcpkg_install_path}/include
-)
+add_library(libuv STATIC IMPORTED)
+if(WIN32)
+  set_target_properties(libuv PROPERTIES
+    IMPORTED_LOCATION ${vcpkg_install_path}/lib/uv.lib 
+  )
+  target_include_directories(libuv 
+    INTERFACE ${vcpkg_install_path}/include
+  )
+elseif(UNIX)
+  find_library(UV_LIBRARY NAMES uv)
+  if(UV_LIBRARY)
+    message(STATUS "Found library uv: ${LIBZ_LIBRARY}")
+  else()
+    message(FATAL_ERROR "libz not found")
+  endif()
+else()
+  message(FATAL_ERROR "unsupported platform")
+endif()
 
-add_library(zlib_windows STATIC IMPORTED)
-set_target_properties(zlib_windows PROPERTIES
-  IMPORTED_LOCATION ${vcpkg_install_path}/lib/zlib.lib 
-)
-target_include_directories(zlib_windows 
-  INTERFACE ${vcpkg_install_path}/include
-)
+add_library(libz STATIC IMPORTED)
+if(WIN32)
+  set_target_properties(libz PROPERTIES
+    IMPORTED_LOCATION ${vcpkg_install_path}/lib/zlib.lib 
+  )
+  target_include_directories(libz 
+    INTERFACE ${vcpkg_install_path}/include
+  )
+elseif(UNIX)
+  find_library(ZLIB_LIBRARY NAMES z zlib libz)
+  if(ZLIB_LIBRARY)
+    message(STATUS "Found library uv: ${ZLIB_LIBRARY}")
+  else()
+    message(FATAL_ERROR "libz not found")
+  endif()
+else()
+  message(FATAL_ERROR "unsupported platform")
+endif()
 
 
 add_library(uWebSocketsLib OBJECT IMPORTED)
@@ -39,11 +61,21 @@ project(WebsocketServer)
 
 add_executable(wsrv wsrv/main.cpp)
 
-target_link_libraries(wsrv 
-  uWebSocketsLib 
-  uvLib_windows
-  zlib_windows
-)
+if(WIN32)
+  target_link_libraries(wsrv 
+    uWebSocketsLib 
+    libuv
+    libz
+  )
+elseif(UNIX)
+  target_link_libraries(wsrv 
+    uWebSocketsLib 
+    ${UV_LIBRARY}
+    ${ZLIB_LIBRARY}
+  )
+else()
+  message(FATAL_ERROR "unsupported platform")
+endif()
 target_include_directories(wsrv PRIVATE ${uWebSocketsLib_includes})
 
 #project(app1)

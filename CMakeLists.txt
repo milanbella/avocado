@@ -16,12 +16,8 @@ elseif(UNIX)
   find_library(UV_LIBRARY NAMES uv 
     PATHS /usr/lib
     PATH_SUFFIXES x86_64-linux-gnu
+    REQUIRED
   )
-  if(UV_LIBRARY)
-    message(STATUS "Found library uv: ${UV_LIBRARY}")
-  else()
-    message(FATAL_ERROR "lib uv not found")
-  endif()
 else()
   message(FATAL_ERROR "unsupported platform")
 endif()
@@ -38,12 +34,8 @@ elseif(UNIX)
   find_library(ZLIB_LIBRARY NAMES z 
     PATHS /usr/lib
     PATH_SUFFIXES x86_64-linux-gnu
+    REQUIRED
   )
-  if(ZLIB_LIBRARY)
-    message(STATUS "Found lib z: ${ZLIB_LIBRARY}")
-  else()
-    message(FATAL_ERROR "lib z not found")
-  endif()
 else()
   message(FATAL_ERROR "unsupported platform")
 endif()
@@ -58,9 +50,11 @@ set(uWebSocketsLib_includes
 set_property(TARGET uWebSocketsLib PROPERTY
   IMPORTED_OBJECTS ${uWebSocketsLib_obj_files}
 )
+if(WIN32)
 target_include_directories(uWebSocketsLib 
   INTERFACE ${vcpkg_install_path}/include
 )
+endif()
 
 
 project(WebsocketServer)
